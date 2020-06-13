@@ -1,4 +1,5 @@
-# yodlee-unofficial-docs
+# Yodlee: The Unofficial Guide
+
 Questions and information about Yodlee's APIs that are not well documented (or hard to find).
 
 If you have any additional confusing, unexpected or undocumented behaviors please submit an issue or PR.
@@ -7,32 +8,47 @@ an experiment in collectively documenting the messy bits.
 
 #### Format
 
-Documentation is not one of my stronger skills in the most ideal circumstances -- and this is explicitly an
-attempt to capture those things that are not easy to understand. It is, at the moment, more important to me
+Documentation is not one of my stronger skills in the most ideal circumstances. It is, at the moment, more important to me
 to collect the questions / guesses / descriptions / etc than to organize them.
 
 As such, this document will tend to be a collection of BUCKETS in which barely-related items are throw 
-together. As information grows around a particular item, it might be moved to a relevant TOPIC whereby closely
-related items are bundled together.
-
-## Domain Language ##
-
-Yodlee seems highly inconsistent with their domain language across their API and documents, which makes it
-very difficult to understand at times. In an attempt to understand Yodlee's API better, we've settled on some
-domain language for the purpose of this document that we believe can be used to describe Yodlee's behavior in
-cases where Yodlee's own language is scattered.
-
-### Customer / User
-
-This one is fairly consistent in Yodlee's documentation but is a little hard to find:
-
-A **CUSTOMER** is the entity that pays Yodlee for access to the APIs. Probably you, actually, or your employer.
-Sometimes this is called a "cobrand" but not as much anymore.
-
-A **USER** is the CUSTOMER's customers. From Yodlee's perspective, it's mostly just part of the data model for keeping things organized. A User has 0..* ProviderAccounts (which represent a set of credentials at a Provider). (As an aside, *Plaid* has no such concept in their aggregation API.)
+together. As information grows around a particular topic, it might be re-organized.
 
 
-### Refresh / Update
+## Definitions ##
+
+Yodlee is inconsistent with their domain language across their API and documents. In cases where this is especially
+confusing, I've chosen specific domain terms to describe Yodlee's behavior and tried to remain consistent.
+
+In the table below, the AKA column provides the term(s) Yodlee uses if different from the one the document uses.
+
+| Term | Description | AKA |
+| ---- | ----------- | --- |
+| **CUSTOMER** | the entity that pays Yodlee for access to the APIs | Customer; sometimes "cobrand" |
+| **USER** | the CUSTOMER's customers. | |
+| **REFRESH** | Yodlee retrieves new information from an Institution on behalf of a customer/user. Sub-types: AUTO-REFRESH and INTERACTIVE REFRESH. | sometimes "update", confusingly |
+| **AUTO-REFRESH** | initiated by Yodlee by schedule or other means | background refresh; cache update |
+| **INTERACTIVE REFRESH** | initiated by a CUSTOMER on behalf of a USER | TBD |
+| **UPDATE** | the CUSTOMER retrieves new information from Yodlee | |
+
+
+## BUCKET: Hints on Intentions ##
+
+Yodlee's documentation tends to lack detailed explanation of how a given data model or API is intended to be used.
+
+As such, here is a collection of hints for various parts of their API. Ideally each of these is given its own
+section with detailed explanations once those are available or figured out.
+
+- `ProviderAccount.dataset[]` vs `Account(s).dataset[]`: are they the same? Experience shows they are NOT, which came as a surprise.
+  - *"Previously, to detect the success of the aggregation process, you checked statusCode at the account-level. In Yodlee Core API v1.1 you have to check the dataset.additionalStatus at the account-level."*<sup>(1)</sup>  Why "account-level?"
+  - *"The account.updateEligibility field provided in the GET accounts endpoint can be used to display the refresh or edit credentials options."*<sup>(1)</sup> `account.updateEligibility` isn't even a thing, but assuming they mean account-level dataset.updateEligibility.
+
+- Does this rename signify something important?? Because the original names *seem* more accurate.*
+  - `nextRefreshScheduled` -> `nextUpdateScheduled`
+  - `lastRefreshed` -> `lastUpdated`
+  - `lastRefreshAttempt` -> `lastUpdateAttempt`
+
+## TOPIC: Refresh / Update
 
 ~~~
 ┌─────────────┐            ┌────────┐           ┌──────────────┐
@@ -60,26 +76,9 @@ retrieves new information from Yodlee. The most obvious form of this is pulling 
   - Yodlee seems to be using the term "Update" to refer to Refresh in some cases.
   - YSL 1.0 -> 1.1 changed some field names replacing the word "refresh" with "update." Why? 
 
-## BUCKET: Hints on Intentions ##
+### Interactive Refresh / Account Status
 
-Yodlee's documentation tends to lack detailed explanation of how a given data model or API is intended to be used.
-
-As such, here is a collection of hints for various parts of their API. Ideally each of these is given its own
-section with detailed explanations once those are available or figured out.
-
-- `ProviderAccount.dataset[]` vs `Account(s).dataset[]`: are they the same? Experience shows they are NOT, which came as a surprise.
-  - *"Previously, to detect the success of the aggregation process, you checked statusCode at the account-level. In Yodlee Core API v1.1 you have to check the dataset.additionalStatus at the account-level."*<sup>(1)</sup>  Why "account-level?"
-  - *"The account.updateEligibility field provided in the GET accounts endpoint can be used to display the refresh or edit credentials options."*<sup>(1)</sup> `account.updateEligibility` isn't even a thing, but assuming they mean account-level dataset.updateEligibility.
-
-- Does this rename signify something important?? Because the original names *seem* more accurate.*
-  - `nextRefreshScheduled` -> `nextUpdateScheduled`
-  - `lastRefreshed` -> `lastUpdated`
-  - `lastRefreshAttempt` -> `lastUpdateAttempt`
-
-
-## Interactive Refresh / Account Status ##
-
-### Fields That Help Display the Refresh and Edit Credentials Options
+#### Fields That Help Display the Refresh and Edit Credentials Options
 <sup>... from https://developer.yodlee.com/Yodlee_API/docs/v1_1/Migrating_Yodlee_API_1_0_To_1_1_New</sup>
 
 > The account.updateEligibility field provided in the GET accounts endpoint can be used to display the refresh 
@@ -94,9 +93,9 @@ section with detailed explanations once those are available or figured out.
 > be provided in the response.
 
 
-## Auto Refresh ##
+### Auto Refresh
 
-### Enabled/Disabled
+#### Enabled/Disabled
 
 There are a number of places in the YSL API that provide hints as to the AutoRefresh status for a given account. 
 They don't always seem to agree and it's not entirely obvious which settings take precedence. One is writeable, but 
