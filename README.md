@@ -1,5 +1,5 @@
 # yodlee-unofficial-docs
-A collection of information about Yodlee's APIs that are derived from experience, but not necessarily (well) documented.
+Questions and information about Yodlee's APIs that are not well documented (or hard to find).
 
 If you have any additional confusing, unexpected or undocumented behaviors please submit an issue or PR.
 
