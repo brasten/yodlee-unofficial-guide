@@ -1,4 +1,4 @@
-# Yodlee: The Unofficial Guide
+# Yodlee: The Unofficial Guide to YSL
 
 Questions and information about Yodlee's APIs that are not well documented (or hard to find).
 
@@ -18,6 +18,8 @@ together. As information grows around a particular topic, it might be re-organiz
 
 - [Release Notes][release-notes]
 - [1.0 -> 1.1 Migration Guide][1.1-migration]
+- [API Reference][api-reference]
+- [Data Model][data-model]
 
 ## Definitions ##
 
@@ -128,4 +130,6 @@ Footnotes
 
 [release-notes]: https://developer.yodlee.com/Yodlee_API/Release_Notes
 [1.1-migration]: https://developer.yodlee.com/Yodlee_API/docs/v1_1/Migrating_Yodlee_API_1_0_To_1_1_New
+[api-reference]: https://developer.yodlee.com/api-reference
+[data-model]: https://developer.yodlee.com/docs/api/1.1/Data_Model
 
