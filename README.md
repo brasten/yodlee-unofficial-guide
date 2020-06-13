@@ -52,20 +52,23 @@ section with detailed explanations once those are available or figured out.
 
 - `ProviderAccount.dataset[]` vs `Account(s).dataset[]`: are they the same? Experience shows they are NOT, which came as a surprise.
 
-  - *"Previously, to detect the success of the aggregation process, you checked statusCode at the account-level. In Yodlee Core API v1.1 you have to check the dataset.additionalStatus at the account-level."*  Why "account-level?" (1)
-  - *"The account.updateEligibility field provided in the GET accounts endpoint can be used to display the refresh or edit credentials options."* `account.updateEligibility` isn't even a thing, but assuming they mean account-level dataset.updateEligibility. (1)
+  - *"Previously, to detect the success of the aggregation process, you checked statusCode at the account-level. In Yodlee Core API v1.1 you have to check the dataset.additionalStatus at the account-level."*<sup>(1)</sup>  Why "account-level?"
+  - *"The account.updateEligibility field provided in the GET accounts endpoint can be used to display the refresh or edit credentials options."*<sup>(1)</sup> `account.updateEligibility` isn't even a thing, but assuming they mean account-level dataset.updateEligibility.
 
 
 ## Interactive Refresh / Account Status ##
 
 ### Fields That Help Display the Refresh and Edit Credentials Options
-... from https://developer.yodlee.com/Yodlee_API/docs/v1_1/Migrating_Yodlee_API_1_0_To_1_1_New
+<sup>... from https://developer.yodlee.com/Yodlee_API/docs/v1_1/Migrating_Yodlee_API_1_0_To_1_1_New</sup>
 
 > The account.updateEligibility field provided in the GET accounts endpoint can be used to display the refresh 
 > or edit credentials options.
+>
 > The refresh or retrieve the latest updates option can be displayed to your users when the value is 
 > account.updateEligibility = ALLOW_UPDATE.
+>
 > The edit credentials option can be displayed when the value is account.updateEligibility = ALLOW_UPDATE_WITH_CREDENTIALS.
+>
 > Note: When the refresh is not allowed due to incorrect or expired credentials, the edit credential option should 
 > be provided in the response.
 
@@ -86,5 +89,6 @@ the associated Provider has it's autoRefresh DISABLED?).
 - `Provider.isAutoRefreshEnabled`
 
 
-(1) https://developer.yodlee.com/Yodlee_API/docs/v1_1/Migrating_Yodlee_API_1_0_To_1_1_New
+Footnotes
+1. https://developer.yodlee.com/Yodlee_API/docs/v1_1/Migrating_Yodlee_API_1_0_To_1_1_New
 
