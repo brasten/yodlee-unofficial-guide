@@ -16,10 +16,10 @@ together. As information grows around a particular topic, it might be re-organiz
 
 ## References ##
 
+- [Data Model][data-model]
+- [API Reference][api-reference]
 - [Release Notes][release-notes]
 - [1.0 -> 1.1 Migration Guide][1.1-migration]
-- [API Reference][api-reference]
-- [Data Model][data-model]
 
 ## Definitions ##
 
