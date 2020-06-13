@@ -25,8 +25,8 @@ cases where Yodlee's own language is scattered.
 
 This one is fairly consistent in Yodlee's documentation but is a little hard to find:
 
-- *CUSTOMER* -> the entity that pays Yodlee for access to the APIs. Probably you, actually.
-- *USER* -> the CUSTOMER's customers. From Yodlee's perspective, it's mostly just part of the data model
+- **CUSTOMER** -> the entity that pays Yodlee for access to the APIs. Probably you, actually.
+- **USER** -> the CUSTOMER's customers. From Yodlee's perspective, it's mostly just part of the data model
   for keeping things organized. (As an aside, *Plaid* has no such concept in their aggregation API.)
 
 ### Refresh / Update ###
@@ -37,11 +37,32 @@ This one is fairly consistent in Yodlee's documentation but is a little hard to 
 └─────────────┘            └────────┘           └──────────────┘
 </pre>
 
-What is the `Institution -> Yodlee` interaction called? For my own purposes based on past understandings,
-I've decided to call it `Refresh`.
+A **REFRESH** is this document's term for the `Institution -> Yodlee` interaction. During a refresh, Yodlee retrieves new information from an Institution on behalf of a customer/user. There are two sub-types of refresh:
 
-What is the `Yodlee -> API Customer` interaction called? For my own purposes based on past understandings,
-I've decided to call it `Update`.
+  - An **AUTO-REFRESH** is a refresh initiated by Yodlee of their own volition by schedule or other means. Yodlee
+    refers to this as auto refresh, cache refresh, etc.
+  - An **INTERACTIVE REFRESH** is a refresh initiated by a CUSTOMER on behalf of a USER. The user is presumed to be
+    presently interacting with the customers' product. There are two ways to initiate an Interactive Refresh:
+      - **API-BASED** interactive refreshes are triggered by the customer using the `PUT /providerAccounts` API.
+        *It is expected that the customer's site will present in-progress information to the user, and has implemented
+        a custom UX for presenting MFA challenges to the user.<sup>(NOTE: Move this last sentence to an implementation 
+        section at some point, it's not really a part of the definition itself.)</sup>*
+      - **WIDGET-BASED** interactive refreshes are driven by Yodlee's Fastlink UX exclusively.
+
+An **UPDATE** is this document's term for the `Yodlee -> API Customer` interaction. During an update, the customer
+retrieves new information from Yodlee. The most obvious form of this is pulling new data via the relevant APIs 
+(accounts, transactions, etc). But this also refers to the process utilizing the Data Extract API.
+  - Possible source of confusion: Yodlee seems to be using the term "Update" to refer to Refresh in some cases.
+    The most confusing instance of this seems to be the renaming of some fields<sup>(1)</sup> between the YSL 1.0 and YSL 1.1
+    API versions (listed below).
+    
+    *Open Question: Does this rename signify something important?? Because the original names *seem* more
+    accurate.*
+    
+    - `nextRefreshScheduled` -> `nextUpdateScheduled`
+    - `lastRefreshed` -> `lastUpdated`
+    - `lastRefreshAttempt` -> `lastUpdateAttempt`
+
 
 ## Hints to Intentions ##
 
