@@ -2,40 +2,43 @@
 Questions and information about Yodlee's APIs that are not well documented (or hard to find).
 
 If you have any additional confusing, unexpected or undocumented behaviors please submit an issue or PR.
+If your experience or understanding differs from that described here, let us know! This whole exercise is
+an experiment in collectively documenting the messy bits.
 
+#### Format
 
-## List of things to expand (YSL 1.1)
+Documentation is not one of my stronger skills in the most ideal circumstances -- and this is explicitly an
+attempt to capture those things that are not easy to understand. It is, at the moment, more important to me
+to collect the questions / guesses / descriptions / etc than to organize them.
 
-- `autoRefresh` on Account model
-  - doesn't it make more sense on ProviderAccount?
-  - will it actually be different between Accounts on a given ProviderAccount?
- 
-- `ProviderAccount.dataset[].lastUpdated` does not seem to be updated after a PARTIAL_SUCCESS. However, on 
-  the ProviderAccount's Accounts, `dataset[].lastUpdated` IS updated. Intentional?
+As such, this document will tend to be a collection of BUCKETS in which barely-related items are throw 
+together. As information grows around a particular item, it might be moved to a relevant TOPIC whereby closely
+related items are bundled together.
 
-
-## A Note on Domain Language ##
+## Domain Language ##
 
 Yodlee seems highly inconsistent with their domain language across their API and documents, which makes it
 very difficult to understand at times. In an attempt to understand Yodlee's API better, we've settled on some
 domain language for the purpose of this document that we believe can be used to describe Yodlee's behavior in
 cases where Yodlee's own language is scattered.
 
-### Customer / User ###
+### Customer / User
 
 This one is fairly consistent in Yodlee's documentation but is a little hard to find:
 
-- **CUSTOMER** -> the entity that pays Yodlee for access to the APIs. Probably you, actually.
-- **USER** -> the CUSTOMER's customers. From Yodlee's perspective, it's mostly just part of the data model
-  for keeping things organized. (As an aside, *Plaid* has no such concept in their aggregation API.)
+A **CUSTOMER** is the entity that pays Yodlee for access to the APIs. Probably you, actually, or your employer.
+Sometimes this is called a "cobrand" but not as much anymore.
 
-### Refresh / Update ###
+A **USER** is the CUSTOMER's customers. From Yodlee's perspective, it's mostly just part of the data model for keeping things organized. A User has 0..* ProviderAccounts (which represent a set of credentials at a Provider). (As an aside, *Plaid* has no such concept in their aggregation API.)
 
-<pre>
+
+### Refresh / Update
+
+~~~
 ┌─────────────┐            ┌────────┐           ┌──────────────┐
 │ Institution │──REFRESH──▶│ Yodlee │──UPDATE──▶│ API Customer │
 └─────────────┘            └────────┘           └──────────────┘
-</pre>
+~~~
 
 A **REFRESH** is this document's term for the `Institution -> Yodlee` interaction. During a refresh, Yodlee retrieves new information from an Institution on behalf of a customer/user. There are two sub-types of refresh:
 
@@ -52,29 +55,26 @@ A **REFRESH** is this document's term for the `Institution -> Yodlee` interactio
 An **UPDATE** is this document's term for the `Yodlee -> API Customer` interaction. During an update, the customer
 retrieves new information from Yodlee. The most obvious form of this is pulling new data via the relevant APIs 
 (accounts, transactions, etc). But this also refers to the process utilizing the Data Extract API.
-  - Possible source of confusion: Yodlee seems to be using the term "Update" to refer to Refresh in some cases.
-    The most confusing instance of this seems to be the renaming of some fields<sup>(1)</sup> between the YSL 1.0 and YSL 1.1
-    API versions (listed below).
-    
-    *Open Question: Does this rename signify something important?? Because the original names *seem* more
-    accurate.*
-    
-    - `nextRefreshScheduled` -> `nextUpdateScheduled`
-    - `lastRefreshed` -> `lastUpdated`
-    - `lastRefreshAttempt` -> `lastUpdateAttempt`
 
+  Possible sources of confusion:
+  - Yodlee seems to be using the term "Update" to refer to Refresh in some cases.
+  - YSL 1.0 -> 1.1 changed some field names replacing the word "refresh" with "update." Why? 
 
-## Hints to Intentions ##
+## BUCKET: Hints on Intentions ##
 
-Yodlee's documentation tends to lack detailed explanation of how a given data model is intended to be used.
+Yodlee's documentation tends to lack detailed explanation of how a given data model or API is intended to be used.
 
 As such, here is a collection of hints for various parts of their API. Ideally each of these is given its own
 section with detailed explanations once those are available or figured out.
 
 - `ProviderAccount.dataset[]` vs `Account(s).dataset[]`: are they the same? Experience shows they are NOT, which came as a surprise.
-
   - *"Previously, to detect the success of the aggregation process, you checked statusCode at the account-level. In Yodlee Core API v1.1 you have to check the dataset.additionalStatus at the account-level."*<sup>(1)</sup>  Why "account-level?"
   - *"The account.updateEligibility field provided in the GET accounts endpoint can be used to display the refresh or edit credentials options."*<sup>(1)</sup> `account.updateEligibility` isn't even a thing, but assuming they mean account-level dataset.updateEligibility.
+
+- Does this rename signify something important?? Because the original names *seem* more accurate.*
+  - `nextRefreshScheduled` -> `nextUpdateScheduled`
+  - `lastRefreshed` -> `lastUpdated`
+  - `lastRefreshAttempt` -> `lastUpdateAttempt`
 
 
 ## Interactive Refresh / Account Status ##
@@ -96,7 +96,7 @@ section with detailed explanations once those are available or figured out.
 
 ## Auto Refresh ##
 
-### Enabled/Disabled ###
+### Enabled/Disabled
 
 There are a number of places in the YSL API that provide hints as to the AutoRefresh status for a given account. 
 They don't always seem to agree and it's not entirely obvious which settings take precedence. One is writeable, but 
@@ -108,6 +108,16 @@ the associated Provider has it's autoRefresh DISABLED?).
 - `ProviderAccount.dataset[].nextUpdateScheduled` and `Account.dataset[].nextUpdateScheduled`
   - are these two different values or the same value returned in two different locations?
 - `Provider.isAutoRefreshEnabled`
+
+
+## BUCKET: List of things to expand (YSL 1.1) ##
+
+- `autoRefresh` on Account model
+  - doesn't it make more sense on ProviderAccount?
+  - will it actually be different between Accounts on a given ProviderAccount?
+ 
+- `ProviderAccount.dataset[].lastUpdated` does not seem to be updated after a PARTIAL_SUCCESS. However, on 
+  the ProviderAccount's Accounts, `dataset[].lastUpdated` IS updated. Intentional?
 
 
 Footnotes
