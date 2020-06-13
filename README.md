@@ -26,10 +26,10 @@ In the table below, the AKA column provides the term(s) Yodlee uses if different
 | ---- | ----------- | --- |
 | **CUSTOMER** | the entity that pays Yodlee for access to the APIs | Customer; sometimes "cobrand" |
 | **USER** | the CUSTOMER's customers. | |
-| **REFRESH** | Yodlee retrieves new information from an Institution on behalf of a customer/user. Sub-types: AUTO-REFRESH and INTERACTIVE REFRESH. | sometimes "update", confusingly |
+| **REFRESH** | Yodlee retrieves new information from an Institution on behalf of a customer/user | sometimes "update", confusingly |
 | **AUTO-REFRESH** | initiated by Yodlee by schedule or other means | background refresh; cache update |
 | **INTERACTIVE REFRESH** | initiated by a CUSTOMER on behalf of a USER | TBD |
-| **UPDATE** | the CUSTOMER retrieves new information from Yodlee | |
+| **UPDATE** | the CUSTOMER retrieves new information from Yodlee | "Data Extract" is used sometimes as it's a specific implementation of UPDATE |
 
 
 ## BUCKET: Hints on Intentions ##
