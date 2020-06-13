@@ -31,9 +31,11 @@ This one is fairly consistent in Yodlee's documentation but is a little hard to 
 
 ### Refresh / Update ###
 
-> ┌─────────────┐            ┌────────┐           ┌──────────────┐
-> │ Institution │──REFRESH──▶│ Yodlee │──UPDATE──▶│ API Customer │
-> └─────────────┘            └────────┘           └──────────────┘
+<pre>
+┌─────────────┐            ┌────────┐           ┌──────────────┐
+│ Institution │──REFRESH──▶│ Yodlee │──UPDATE──▶│ API Customer │
+└─────────────┘            └────────┘           └──────────────┘
+</pre>
 
 What is the `Institution -> Yodlee` interaction called? For my own purposes based on past understandings,
 I've decided to call it `Refresh`.
