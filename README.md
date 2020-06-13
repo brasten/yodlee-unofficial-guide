@@ -14,6 +14,10 @@ to collect the questions / guesses / descriptions / etc than to organize them.
 As such, this document will tend to be a collection of BUCKETS in which barely-related items are throw 
 together. As information grows around a particular topic, it might be re-organized.
 
+## References ##
+
+- [Release Notes][release-notes]
+- [1.0 -> 1.1 Migration Guide][1.1-migration]
 
 ## Definitions ##
 
@@ -79,7 +83,7 @@ retrieves new information from Yodlee. The most obvious form of this is pulling 
 ### Interactive Refresh / Account Status
 
 #### Fields That Help Display the Refresh and Edit Credentials Options
-<sup>... from https://developer.yodlee.com/Yodlee_API/docs/v1_1/Migrating_Yodlee_API_1_0_To_1_1_New</sup>
+<sup>... from [1.1 Migration Guide][1.1-migration]</sup>
 
 > The account.updateEligibility field provided in the GET accounts endpoint can be used to display the refresh 
 > or edit credentials options.
@@ -120,5 +124,8 @@ the associated Provider has it's autoRefresh DISABLED?).
 
 
 Footnotes
-1. https://developer.yodlee.com/Yodlee_API/docs/v1_1/Migrating_Yodlee_API_1_0_To_1_1_New
+1. [https://developer.yodlee.com/Yodlee_API/docs/v1_1/Migrating_Yodlee_API_1_0_To_1_1_New][1.1-migration]
+
+[release-notes]: https://developer.yodlee.com/Yodlee_API/Release_Notes
+[1.1-migration]: https://developer.yodlee.com/Yodlee_API/docs/v1_1/Migrating_Yodlee_API_1_0_To_1_1_New
 
